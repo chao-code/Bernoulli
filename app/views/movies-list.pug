@@ -1,0 +1,16 @@
+extends layout
+
+include ./common.pug
+
+block content
+  div.ui.fluid.two.item.secondary.pointing.large.menu#movies-tabs
+    a.item.active(data-tab='popular') Most Popular
+    a.item(data-tab='ranked') Top Rated
+  div.ui.tab.active(data-tab='popular')
+    div.ui.five.doubling.cards
+      each movie in movies.mostPopular
+        +movieCard(movie)
+  div.ui.tab(data-tab='ranked')
+    div.ui.five.doubling.cards
+      each movie in movies.topRated
+        +movieCard(movie)

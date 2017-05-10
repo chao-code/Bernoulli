@@ -1,0 +1,44 @@
+include ./common.pug
+
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title= title
+    link(rel='stylesheet', href='/semantic/semantic.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+  body
+    div.ui.fixed.inverted.large.menu
+      a.header.item(href='/') Bernoulli
+      div.right.menu
+        div.ui.search.item#search
+          div.ui.transparent.inverted.left.icon.input
+            i.search.icon
+            input.prompt(type='text', placeholder='Search...')
+          div.results
+        if !user
+          a.item.login Login
+          +loginModal
+        else 
+          div.ui.dropdown.item
+            | #{user.name}
+            i.dropdown.icon
+            div.menu
+              a.item(href='/user/' + user.id) Reviews
+              a.item(href='/api/auth/logout') Logout
+
+    div.main.ui.container
+      block content
+
+    div.footer
+      div.ui.center.aligned.container
+        div.ui.divider
+        small &copy; 2017
+        br
+        br
+    script(src='/javascripts/jquery.min.js')
+    script(src='/javascripts/jquery.address.js')
+    script(src='/semantic/semantic.min.js')
+    script(src='/javascripts/myapp.js')

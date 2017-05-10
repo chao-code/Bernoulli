@@ -1,0 +1,110 @@
+mixin loginModal
+  div.ui.small.modal#login-modal
+    div.content
+      div.ui.two.item.secondary.pointing.blue.menu#login-tabs
+        a.item.active(data-tab='signup') Sign Up
+        a.item(data-tab='login') Log In
+      div.ui.tab.active(data-tab='signup')
+        form.ui.form#signup-form
+          div.field
+            div.ui.error.message
+            div.ui.left.icon.input
+              i.user.icon
+              input(type='text', name='name', placeholder='Name')
+          div.field
+            div.ui.left.icon.input
+              i.mail.icon
+              input(type='email', name='email', placeholder='Email')
+          div.field
+            div.ui.left.icon.input
+              i.lock.icon
+              input(type='password', name='password', placeholder='Password')
+          div.ui.fluid.primary.submit.button Sign Up
+      div.ui.tab(data-tab='login')
+        form.ui.form#login-form
+          div.ui.error.message
+          div.field
+            div.ui.left.icon.input
+              i.mail.icon
+              input(type='email', name='email', placeholder='Email')
+          div.field
+            div.ui.left.icon.input
+              i.lock.icon
+              input(type='password', name='password', placeholder='Password')
+          div.ui.fluid.primary.submit.button Log In
+
+mixin ratingStars(rating)
+  if rating
+    - for (var i = 1; i <= rating; i++)
+      i.yellow.fitted.star.icon
+    if i - rating <= 0.5
+      i.yellow.fitted.star.half.empty.icon
+    else
+      i.yellow.fitted.star.empty.icon
+    - for ( ; i < 5; i++)
+      i.yellow.fitted.star.empty.icon
+  else
+    - for (let i = 0; i < 5; i++)
+      i.yellow.fitted.star.empty.icon
+
+mixin movieCard(movie)
+  a.ui.raised.link.card(href='/movie/' + movie.imdbID)
+    div.image
+      img(src=movie.poster)
+    div.content
+      div.header
+        small= movie.title
+      div.meta= movie.year
+      +ratingStars(movie.imdbRating / 2)
+      if movie.imdbRating
+        span.rating &nbsp;&nbsp;#{movie.imdbRating}
+      else
+        span.rating &nbsp;&nbsp;N/A
+
+mixin reviewItem(review, withImage)
+  div.item
+    if withImage
+      div.ui.small.image
+        img(src=review.moviePoster)
+    div.content
+      div.header
+        +ratingStars(review.rating)
+        |  #{review.subject}
+      div.meta
+        if withImage
+          span For
+          a(href='/movie/' + review.movieID)= review.movieTitle
+        else
+          span By
+          a(href='/user/' + review.author._id)= review.author.name
+        span on
+        span= review.createdFormat
+      div.description
+        for line in review.content.split('\n')
+          =line
+          br
+
+
+
+mixin reviewModal(movie)
+  div.ui.modal#review-modal
+    div.header #{movie.Title}  (#{movie.Year})
+    div.content
+      form.ui.form#review-form
+        div.ui.error.message
+        input(type='hidden', name='movieID', value=movie.imdbID)
+        input(type='hidden', name='movieTitle', value=movie.Title)
+        input(type='hidden', name='moviePoster', value=movie.Poster)
+        div.field
+          label Rating
+          div.ui.star.rating#review-rating
+          input#rating-field(type='hidden', name='rating')
+        div.field
+          label Subject
+          input(type='text', name='subject')
+        div.field
+          label Review
+          textarea(name='content')
+    div.actions
+      div.ui.tiny.negative.basic.button Cancel
+      div.ui.tiny.positive.basic.button Submit

@@ -1,0 +1,59 @@
+extends layout
+
+include ./common.pug
+
+block content
+  div.ui.top.attached.very.padded.segment
+    div.ui.stackable.two.column.grid
+      div.column
+        div.ui.centered.card
+          div.image
+            img(src=movie.Poster)
+      div.column
+        h1.ui.large.header #{movie.Title}
+          small.ui.sub.header.meta (#{movie.Year})
+        div.ui.list
+          - var items = ['Genre', 'Rated', 'Runtime', 'Released', 'Language', 'Country', 'Production']
+          each item in items
+            div.item
+              div.content
+                div.sub.header= item
+                div.description= movie[item]
+          div.item
+            div.content
+              div.sub.header Metascore
+              div.description= movie['Metacritic'] || 'N/A'
+          div.item
+            div.content
+              div.sub.header IMDb Rating
+              div.description= movie['Internet Movie Database'] || 'N/A'
+          div.item
+            div.content
+              div.sub.header Rotten Tomatoes
+              div.description= movie['Rotten Tomatoes'] || 'N/A'
+  div.ui.attached.very.padded.segment
+    h3.ui.header Plot Summary
+    p= movie.Plot
+  div.ui.bottom.attached.very.padded.segment
+    div.ui.stackable.three.column.grid
+      - var roles = ['Director', 'Writers', 'Cast']
+      for role in roles
+        div.column
+          h3.ui.header= role
+          div.ui.middle.aligned.celled.list
+            for person in movie[role].split(', ')
+              div.item
+                div.content= person
+  h2.ui.top.attached.header Reviews
+    if user
+      +reviewModal(movie)
+      button.ui.right.floated.tiny.yellow.basic.button.add-review Add Review
+    else
+      button.ui.right.floated.tiny.yellow.basic.button.login Add Review
+  if movie.reviews
+    div.ui.attached.very.padded.segment
+      div.ui.divided.very.relaxed.items
+        for review in movie.reviews
+          +reviewItem(review, false)
+  div.ui.bottom.attached.info.message
+    | End of Reviews.

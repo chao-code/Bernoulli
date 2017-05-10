@@ -1,0 +1,9 @@
+extends layout
+
+include ./common.pug
+
+block content
+  for review in reviews
+    div.ui.very.padded.segment
+      div.ui.divided.very.relaxed.items
+        +reviewItem(review, true)
