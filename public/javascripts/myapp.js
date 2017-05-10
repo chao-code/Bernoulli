@@ -87,10 +87,6 @@ $(function() {
             {
               type: 'email',
               prompt: 'Please enter a valid email address'
-            },
-            {
-              type: 'empty',
-              prompty: 'Please enter your email'
             }
           ]
         },
