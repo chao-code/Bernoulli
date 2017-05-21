@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const Review = require('mongoose').model('Review');
+const apiKey = require('../../config/config').omdbKey;
 
 const oneHour = 60 * 60 * 1000;
 let lastFetchTime = Date.now();
@@ -32,7 +33,7 @@ exports.list = function(req, res, next) {
 
 exports.search = function(req, res, next) {
   if (req.query.title) {
-    const url = 'http://www.omdbapi.com/?type=movie&s=' + req.query.title;
+    const url = `http://www.omdbapi.com/?apikey=${apiKey}&type=movie&s=${req.query.title}`;
     axios.get(url)
       .then(function(response) {
         res.status(200).json(response.data);
@@ -56,7 +57,7 @@ exports.read = function(req, res) {
 };
 
 exports.movieByID = function(req, res, next, movieid) {
-  const url = `http://www.omdbapi.com/?i=${movieid}&plot=full`;
+  const url = `http://www.omdbapi.com/?apikey=${apiKey}&i=${movieid}&plot=full`;
   axios.get(url)
     .then(function(response) {
       const movie = response.data;
