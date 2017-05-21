@@ -2,7 +2,7 @@ let port = process.env.PORT || 3000;
 let db = 'mongodb://localhost/myapp';
 let host = 'http://localhost:3000';
 let sessionSecret = 'ThisisaSecret';
-let omdbKey = '1dc693b3';
+let omdbKey = '';
 
 if (process.env.NODE_ENV == 'production') {
   db = process.env.MONGO_URI;
