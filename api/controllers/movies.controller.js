@@ -12,6 +12,7 @@ fetchMovies()
   });
 
 exports.list = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
   let currentTime = Date.now();
   if (currentTime - lastFetchTime < oneHour && result) {
     res.status(200).json(result);
@@ -32,6 +33,7 @@ exports.list = function(req, res, next) {
 };
 
 exports.search = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
   if (req.query.title) {
     const url = `http://www.omdbapi.com/?apikey=${apiKey}&type=movie&s=${req.query.title}`;
     axios.get(url)
@@ -45,6 +47,7 @@ exports.search = function(req, res, next) {
 };
 
 exports.read = function(req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
   Review.find({movieID: req.movie.imdbID})
     .sort('-created')
     .populate('author', 'name email')
