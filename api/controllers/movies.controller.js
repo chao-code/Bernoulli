@@ -81,7 +81,7 @@ function fetchMovies() {
     mostPopular: 'http://www.imdb.com/chart/moviemeter',
     topRated: 'http://www.imdb.com/chart/top'
   };
-  const imgSize = '._V1_SX300_CR0,0,300,420_AL_.jpg';
+  const imgSize = '._V1_SX300_CR0,0,300,444_AL_.jpg';
   function fetchList(url) {
     return axios.get(url)
       .then(function(response) {
